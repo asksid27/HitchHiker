@@ -8,10 +8,12 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
+import { FontAwesome } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
-import Colors from "../constants/colors";
+import Colors from "../constants/Colors";
+
+import firebase from "firebase";
 
 const LoginScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState({
@@ -74,6 +76,14 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+  const onLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email.email, showPassword.password)
+      .then((result) => {})
+      .catch((error) => {});
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -82,11 +92,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
-          <FontAwesome
-            name="user-o"
-            color="rgba(256, 256, 256, 0.6)"
-            size={20}
-          />
+          <FontAwesome name="user-o" color={Colors.darkAccent} size={20} />
           <TextInput
             placeholder="Your Email"
             style={styles.textInput}
@@ -96,14 +102,14 @@ const LoginScreen = ({ navigation }) => {
           />
 
           {email.validateEmail && email.emailCorrect ? (
-            <Feather name="check-circle" color="#03DAC5" size={20} />
+            <Feather name="check-circle" color={Colors.success} size={20} />
           ) : email.validateEmail ? (
-            <Feather name="x-circle" color="#CF6679" size={20} />
+            <Feather name="x-circle" color={Colors.danger} size={20} />
           ) : null}
         </View>
         <Text style={[styles.text_footer, { marginTop: 40 }]}>Password</Text>
         <View style={styles.action}>
-          <Feather name="lock" color="rgba(256, 256, 256, 0.6)" size={20} />
+          <Feather name="lock" color={Colors.darkAccent} size={20} />
           <TextInput
             secureTextEntry={!showPassword.showPasswordEntry}
             placeholder="Your Password"
@@ -114,25 +120,21 @@ const LoginScreen = ({ navigation }) => {
           />
           <TouchableOpacity onPress={() => toggleShowPassword()}>
             {!showPassword.showPasswordEntry ? (
-              <Feather
-                name="eye-off"
-                color="rgba(256, 256, 256, 0.4)"
-                size={20}
-              />
+              <Feather name="eye-off" color={Colors.lightAccent} size={20} />
             ) : (
-              <Feather name="eye" color="rgba(256, 256, 256, 0.4)" size={20} />
+              <Feather name="eye" color={Colors.lightAccent} size={20} />
             )}
           </TouchableOpacity>
         </View>
         {!showPassword.passwordLength ? null : (
-          <Text style={{ color: "#CF6679" }}>
+          <Text style={{ color: Colors.danger }}>
             Password should be 8 characters long!
           </Text>
         )}
         <View style={styles.button}>
-          <TouchableOpacity style={{ flex: 1 }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => onLogin()}>
             <LinearGradient
-              colors={[Colors.lighter, Colors.extraLight]}
+              colors={[Colors.darkAccent, Colors.lightAccent]}
               style={styles.signIn}
             >
               <Text style={styles.textSign}>Login</Text>
@@ -147,8 +149,8 @@ const LoginScreen = ({ navigation }) => {
             style={[
               styles.signIn,
               {
-                borderColor: Colors.secondary,
-                borderWidth: 1,
+                borderColor: Colors.lightAccent,
+                borderWidth: 2,
                 marginTop: 15,
                 width: "50%",
               },
@@ -158,7 +160,7 @@ const LoginScreen = ({ navigation }) => {
               style={[
                 styles.textSign,
                 {
-                  color: Colors.secondary,
+                  color: Colors.darkAccent,
                 },
               ]}
             >
@@ -176,7 +178,8 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary,
+
+    backgroundColor: Colors.darkShade,
   },
   header: {
     flex: 1,
@@ -186,43 +189,45 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 3,
-    backgroundColor: Colors.dark,
+    backgroundColor: Colors.lightShade,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
   text_header: {
-    color: "#fff",
+    color: Colors.lightShade,
     fontWeight: "bold",
     fontSize: 30,
   },
   text_footer: {
-    color: "white",
+    color: Colors.darkShade,
+    fontWeight: "bold",
     fontSize: 18,
   },
   action: {
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.secondary,
+    borderBottomColor: Colors.lightAccent,
     paddingBottom: 5,
   },
   actionError: {
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#FF0000",
+    borderBottomColor: Colors.danger,
     paddingBottom: 5,
   },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: "#fff",
+    color: Colors.lightAccent,
+    fontWeight: "bold",
   },
   errorMsg: {
-    color: "#FF0000",
+    color: Colors.danger,
     fontSize: 14,
   },
   button: {
@@ -241,5 +246,6 @@ const styles = StyleSheet.create({
   textSign: {
     fontSize: 18,
     fontWeight: "bold",
+    color: Colors.lightShade,
   },
 });

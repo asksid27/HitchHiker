@@ -6,6 +6,8 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  FlatList,
+  Dimensions,
 } from "react-native";
 import firebase from "firebase";
 
@@ -17,6 +19,8 @@ export default function ProfileScreen(props) {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const ScreenWidth = Dimensions.get("window");
 
   useEffect(() => {
     firebase
@@ -30,6 +34,20 @@ export default function ProfileScreen(props) {
         }
         setName(snapshot.data().name);
         setEmail(snapshot.data().email);
+      });
+
+    firebase
+      .firestore()
+      .collection("posts")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userPosts")
+      .get()
+      .then((querySnapshot) => {
+        const documents = querySnapshot.docs.map((doc) => doc.data());
+        setPosts(documents);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -57,7 +75,7 @@ export default function ProfileScreen(props) {
                 name="ios-add"
                 size={48}
                 color="#DFD8C8"
-                style={{ marginTop: 6, marginLeft: 2 }}
+                style={{ marginTop: 2, marginLeft: -2 }}
               ></Ionicons>
             </View>
           </View>
@@ -95,6 +113,22 @@ export default function ProfileScreen(props) {
           </View>
         </View>
       </ScrollView>
+
+      <View style={{ flex: 1, marginTop: -350 }}>
+        <FlatList
+          numColumns={3}
+          data={posts}
+          keyExtractor={(item) => item.downloadURL}
+          renderItem={({ item }) => (
+            // <TouchableOpacity onPress={() => this.goToPost(item)}>
+            <Image
+              source={{ uri: item.downloadURL }}
+              style={{ width: 130, height: 100 }}
+            />
+            // </TouchableOpacity>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -129,8 +163,8 @@ const styles = StyleSheet.create({
   active: {
     backgroundColor: Colors.success,
     position: "absolute",
-    bottom: 28,
-    left: 10,
+    bottom: 20,
+    left: 4,
     padding: 4,
     height: 20,
     width: 20,
@@ -141,11 +175,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    opacity: 0.6,
   },
   infoContainer: {
     alignSelf: "center",

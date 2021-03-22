@@ -72,6 +72,7 @@ const MainScreen = (props) => {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
+        navigation={props.navigation}
         options={{
           tabBarIcon: () => (
             <FontAwesome name="user" color={Colors.lightShade} size={22} />

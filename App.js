@@ -32,6 +32,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import MainScreen from "./navigation/MainScreen";
 import RecipeIngredient from "./components/RecipeIngredient";
+import AddProfileImage from "./components/AddProfileImage";
 
 const Stack = createStackNavigator();
 
@@ -81,6 +82,7 @@ class App extends Component {
               name="RecipeIngredient"
               component={RecipeIngredient}
             />
+            <Stack.Screen name="AddProfileImage" component={AddProfileImage} />
           </Stack.Navigator>
         </NavigationContainer>
         // </Provider>

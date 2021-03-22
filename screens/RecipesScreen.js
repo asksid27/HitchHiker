@@ -5,14 +5,14 @@ import Colors from "../constants/Colors";
 
 import * as Recipes from "../data/dummy-data";
 
-export default function RecipesScreen() {
+export default function RecipesScreen(props) {
   return (
     <View style={styles.container}>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={Recipes.recipes.results}
         renderItem={(itemdata) => {
-          return <Recipe item={itemdata.item} />;
+          return <Recipe item={itemdata.item} navigation={props.navigation} />;
         }}
       />
     </View>

@@ -1,10 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StatusBar } from "expo-status-bar";
-import AppLoading from "expo-app-loading";
-import * as Font from "expo-font";
-import React, { Component, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import { AppearanceProvider } from "react-native-appearance";
 
 import firebase from "firebase";
@@ -34,6 +31,7 @@ import SplashScreen from "./screens/SplashScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import MainScreen from "./navigation/MainScreen";
+import RecipeIngredient from "./components/RecipeIngredient";
 
 const Stack = createStackNavigator();
 
@@ -79,6 +77,10 @@ class App extends Component {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="MainScreen" headerMode="none">
             <Stack.Screen name="MainScreen" component={MainScreen} />
+            <Stack.Screen
+              name="RecipeIngredient"
+              component={RecipeIngredient}
+            />
           </Stack.Navigator>
         </NavigationContainer>
         // </Provider>

@@ -13,7 +13,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 
 import Colors from "../constants/Colors";
 
-const MainScreen = () => {
+const MainScreen = (props) => {
   return (
     <Tab.Navigator
       activeColor={Colors.lightShade}
@@ -56,6 +56,7 @@ const MainScreen = () => {
       <Tab.Screen
         name="Recipes"
         component={RecipesScreen}
+        navigation={props.navigation}
         options={{
           tabBarIcon: () => (
             <MaterialIcons

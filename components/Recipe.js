@@ -1,15 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 
 export default function Recipe(props) {
+  const ingredientHandler = () => {
+    props.navigation.navigate("RecipeIngredient", { item: props.item });
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => ingredientHandler()}
+      style={styles.container}
+    >
       <Image source={{ uri: props.item.image }} style={styles.image} />
+
       <Text style={styles.title} numberOfLines={1}>
         {props.item.title}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

@@ -11,7 +11,6 @@ import firebase from "firebase";
 import {
   API_KEY,
   AUTH_DOMAIN,
-  DATABASE_URL,
   PROJECT_ID,
   STORAGE_BUCKET,
   MESSAGE_SENDER_ID,
@@ -21,7 +20,6 @@ import {
 const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
-  databaseURL: DATABASE_URL,
   projectId: PROJECT_ID,
   storageBucket: STORAGE_BUCKET,
   messagingSenderId: MESSAGE_SENDER_ID,
@@ -35,7 +33,7 @@ if (firebase.apps.length === 0) {
 import SplashScreen from "./screens/SplashScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import MainScreen from "./screens/MainScreen";
+import MainScreen from "./navigation/MainScreen";
 
 const Stack = createStackNavigator();
 
@@ -79,7 +77,7 @@ class App extends Component {
       return (
         // <Provider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="SplashScreen" headerMode="none">
+          <Stack.Navigator initialRouteName="MainScreen" headerMode="none">
             <Stack.Screen name="MainScreen" component={MainScreen} />
           </Stack.Navigator>
         </NavigationContainer>

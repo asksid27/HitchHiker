@@ -80,8 +80,12 @@ const LoginScreen = ({ navigation }) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email.email, showPassword.password)
-      .then((result) => {})
-      .catch((error) => {});
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

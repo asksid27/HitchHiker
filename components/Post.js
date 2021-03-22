@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permission from "expo-permissions";
@@ -18,6 +19,7 @@ import Colors from "../constants/Colors";
 export default function Post(props) {
   const [image, setImage] = useState("");
   const [caption, setCaption] = useState("");
+  const [imageUpload, setImageUpload] = useState(false);
   const verifyPermission = async () => {
     const result = await Permission.askAsync(
       Permission.CAMERA,
@@ -69,8 +71,9 @@ export default function Post(props) {
         caption,
         creation: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then((result) => {
-        console.log(result);
+      .then(() => {
+        setImageUpload(false);
+        setCaption("");
       })
       .catch((err) => {
         console.log(err);
@@ -78,6 +81,7 @@ export default function Post(props) {
   };
 
   const uploadImage = async () => {
+    setImageUpload(true);
     const response = await fetch(image);
     const blob = await response.blob();
 
@@ -113,8 +117,10 @@ export default function Post(props) {
           <View style={styles.text}>
             <Text>Pick an Image!</Text>
           </View>
-        ) : (
+        ) : !imageUpload ? (
           <Image style={styles.image} source={{ uri: image }} />
+        ) : (
+          <ActivityIndicator size="large" color={Colors.success} />
         )}
       </View>
       <View style={styles.buttons}>

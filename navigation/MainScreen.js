@@ -1,13 +1,14 @@
 import React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createMaterialBottomTabNavigator();
 
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import PostScreen from "../screens/PostScreen";
-import NotificationsScreen from "../screens/NotificationsScreen";
+import RecipesScreen from "../screens/RecipesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import Colors from "../constants/Colors";
@@ -33,7 +34,11 @@ const MainScreen = () => {
         component={SearchScreen}
         options={{
           tabBarIcon: () => (
-            <FontAwesome name="search" color={Colors.lightShade} size={22} />
+            <MaterialIcons
+              name="food-bank"
+              color={Colors.lightShade}
+              size={22}
+            />
           ),
           tabBarColor: Colors.darkShade,
         }}
@@ -49,11 +54,15 @@ const MainScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={NotificationsScreen}
+        name="Recipes"
+        component={RecipesScreen}
         options={{
           tabBarIcon: () => (
-            <FontAwesome name="heart" color={Colors.lightShade} size={22} />
+            <MaterialIcons
+              name="fastfood"
+              color={Colors.lightShade}
+              size={22}
+            />
           ),
           tabBarColor: Colors.danger,
         }}

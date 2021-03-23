@@ -11,10 +11,14 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permission from "expo-permissions";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 
 import firebase from "firebase";
 
 import Colors from "../constants/Colors";
+
+import { insertPhoto } from "../helper/db";
 
 export default function Post(props) {
   const [image, setImage] = useState("");
@@ -60,6 +64,23 @@ export default function Post(props) {
     }
   };
 
+  const saveOnDevice = async () => {
+    const fileName = image.split("/").pop();
+    const newPath = FileSystem.documentDirectory + fileName;
+
+    try {
+      await FileSystem.moveAsync({
+        from: image,
+        to: newPath,
+      });
+      MediaLibrary.saveToLibraryAsync(newPath);
+      await insertPhoto(firebase.auth().currentUser.uid, newPath);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  };
+
   const savePostData = (downloadURL) => {
     firebase
       .firestore()
@@ -72,6 +93,7 @@ export default function Post(props) {
         creation: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
+        saveOnDevice();
         setImageUpload(false);
         setCaption("");
       })

@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   FlatList,
-  Dimensions,
+  Button,
 } from "react-native";
 import firebase from "firebase";
 
@@ -20,7 +20,6 @@ export default function ProfileScreen(props) {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [posts, setPosts] = useState([]);
-  const ScreenWidth = Dimensions.get("window");
 
   useEffect(() => {
     firebase
@@ -50,6 +49,10 @@ export default function ProfileScreen(props) {
         console.log(err);
       });
   }, []);
+
+  const onLogout = () => {
+    firebase.auth().signOut();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -113,8 +116,21 @@ export default function ProfileScreen(props) {
           </View>
         </View>
       </ScrollView>
+      <View
+        style={{
+          marginTop: -300,
+          marginBottom: 20,
+          flex: 1,
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
+        <View style={{ width: "50%" }}>
+          <Button title="Logout" onPress={onLogout} color={Colors.danger} />
+        </View>
+      </View>
 
-      <View style={{ flex: 1, marginTop: -350 }}>
+      <View style={{ flex: 1, marginTop: -300 }}>
         <FlatList
           numColumns={3}
           data={posts}

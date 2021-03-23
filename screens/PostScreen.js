@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
+import LocationPicker from "../components/LocationPicker";
 import Post from "../components/Post";
 
 export default function PostScreen() {
@@ -11,6 +10,7 @@ export default function PostScreen() {
   return (
     <View style={styles.container}>
       <Post />
+      <LocationPicker />
     </View>
   );
 }

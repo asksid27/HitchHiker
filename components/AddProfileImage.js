@@ -6,7 +6,6 @@ import {
   Text,
   StyleSheet,
   Alert,
-  TextInput,
   ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";

@@ -48,7 +48,7 @@ export default function ProfileScreen(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [image]);
 
   const onLogout = () => {
     firebase.auth().signOut();
@@ -94,7 +94,7 @@ export default function ProfileScreen(props) {
 
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>4</Text>
+            <Text style={[styles.text, { fontSize: 24 }]}>{posts.length}</Text>
             <Text style={[styles.text, styles.subText]}>Posts</Text>
           </View>
           <View

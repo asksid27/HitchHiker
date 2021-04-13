@@ -3,47 +3,47 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 
 export default function Recipe(props) {
-  const ingredientHandler = () => {
-    props.navigation.navigate("RecipeIngredient", { item: props.item });
-  };
+	const ingredientHandler = () => {
+		props.navigation.navigate("RecipeIngredient", { item: props.item });
+	};
 
-  return (
-    <TouchableOpacity
-      onPress={() => ingredientHandler()}
-      style={styles.container}
-    >
-      <Image source={{ uri: props.item.image }} style={styles.image} />
+	return (
+		<TouchableOpacity
+			onPress={() => ingredientHandler()}
+			style={styles.container}
+		>
+			<Image source={{ uri: props.item.image }} style={styles.image} />
 
-      <Text style={styles.title} numberOfLines={1}>
-        {props.item.title}
-      </Text>
-    </TouchableOpacity>
-  );
+			<Text style={styles.title} numberOfLines={1}>
+				{props.item.title}
+			</Text>
+		</TouchableOpacity>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    shadowColor: Colors.danger,
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 10,
-    borderRadius: 10,
-    backgroundColor: Colors.primary,
-    height: 320,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-  },
-  title: {
-    marginVertical: 4,
-    fontSize: 14,
-    paddingHorizontal: 5,
-    color: Colors.lightShade,
-  },
-  image: {
-    height: 300,
-    width: "100%",
-  },
+	container: {
+		shadowColor: Colors.danger,
+		shadowOpacity: 0.26,
+		shadowOffset: { width: 0, height: 2 },
+		shadowRadius: 8,
+		elevation: 10,
+		borderRadius: 10,
+		backgroundColor: Colors.primary,
+		height: 320,
+		margin: 10,
+		justifyContent: "center",
+		alignItems: "center",
+		overflow: "hidden",
+	},
+	title: {
+		marginVertical: 4,
+		fontSize: 14,
+		paddingHorizontal: 5,
+		color: Colors.lightShade,
+	},
+	image: {
+		height: 300,
+		width: "100%",
+	},
 });

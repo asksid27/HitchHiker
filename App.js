@@ -37,6 +37,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import MainScreen from "./navigation/MainScreen";
 import RecipeIngredient from "./components/RecipeIngredient";
 import AddProfileImage from "./components/AddProfileImage";
+import RestaurantDetails from "./components/RestaurantDetails";
 
 const Stack = createStackNavigator();
 
@@ -87,6 +88,10 @@ class App extends Component {
               component={RecipeIngredient}
             />
             <Stack.Screen name="AddProfileImage" component={AddProfileImage} />
+            <Stack.Screen
+              name="RestaurantDetails"
+              component={RestaurantDetails}
+            />
           </Stack.Navigator>
         </NavigationContainer>
         // </Provider>

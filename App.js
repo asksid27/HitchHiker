@@ -27,6 +27,12 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./redux/reducers";
+import thunk from "redux-thunk";
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
 import { init } from "./helper/db";
 
 init();
@@ -79,22 +85,25 @@ class App extends Component {
       );
     } else {
       return (
-        // <Provider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="MainScreen" headerMode="none">
-            <Stack.Screen name="MainScreen" component={MainScreen} />
-            <Stack.Screen
-              name="RecipeIngredient"
-              component={RecipeIngredient}
-            />
-            <Stack.Screen name="AddProfileImage" component={AddProfileImage} />
-            <Stack.Screen
-              name="RestaurantDetails"
-              component={RestaurantDetails}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-        // </Provider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="MainScreen" headerMode="none">
+              <Stack.Screen name="MainScreen" component={MainScreen} />
+              <Stack.Screen
+                name="RecipeIngredient"
+                component={RecipeIngredient}
+              />
+              <Stack.Screen
+                name="AddProfileImage"
+                component={AddProfileImage}
+              />
+              <Stack.Screen
+                name="RestaurantDetails"
+                component={RestaurantDetails}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
       );
     }
   }

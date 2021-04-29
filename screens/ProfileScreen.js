@@ -14,6 +14,7 @@ import firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
+import {widthPercentageToDP as wp ,  heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default function ProfileScreen(props) {
   const [image, setImage] = useState(null);
@@ -48,7 +49,7 @@ export default function ProfileScreen(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [image]);
+  }, []);
 
   const onLogout = () => {
     firebase.auth().signOut();
@@ -62,89 +63,95 @@ export default function ProfileScreen(props) {
             props.navigation.navigate("AddProfileImage");
           }}
         >
-          <View style={{ alignSelf: "center" }}>
-            <View style={styles.profileImage}>
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={styles.image}
-                  resizeMode="center"
-                />
-              ) : null}
+          <View style={{ alignSelf: "center", flexDirection:'row', marginTop: 20, marginBottom:30,}}>
+            <View>  
+              <View style={styles.profileImage}>
+                {image ? (
+                  <Image
+                    source={{ uri: image }}
+                    style={styles.image}
+                    resizeMode="center"
+                  />
+                ) : null}
+              </View>
+              <View style={styles.active}></View>
+              <View style={styles.add}>
+                <Ionicons
+                  name="ios-add-circle-sharp"
+                  size={45}
+                  color="black"
+                ></Ionicons>
+              </View>
             </View>
-            <View style={styles.active}></View>
-            <View style={styles.add}>
-              <Ionicons
-                name="ios-add"
-                size={48}
-                color="#DFD8C8"
-                style={{ marginTop: 2, marginLeft: -2 }}
-              ></Ionicons>
+            <View style={styles.infoContainer}>
+              <Text style={[styles.text, { fontWeight: "200", fontSize: 20 }]}>
+                {name}
+              </Text>
+              <Text style={[styles.text, { color: "#AEB5BC", fontSize: 15 }]}>
+                {email}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
-        <View style={styles.infoContainer}>
-          <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>
-            {name}
-          </Text>
-          <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>
-            {email}
-          </Text>
-        </View>
 
         <View style={styles.statsContainer}>
-          <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>{posts.length}</Text>
-            <Text style={[styles.text, styles.subText]}>Posts</Text>
+          <View style={[styles.statsBox, {
+                borderLeftWidth: 1,                
+              },]}>
+            <Text style={[styles.text, { fontSize: 20,  }]}>{posts.length}</Text>
+            <Text style={styles.text, styles.subText}>Posts</Text>
           </View>
           <View
             style={[
               styles.statsBox,
               {
-                borderColor: "#DFD8C8",
                 borderLeftWidth: 1,
                 borderRightWidth: 1,
               },
             ]}
           >
-            <Text style={[styles.text, { fontSize: 24 }]}>4</Text>
+            <Text style={[styles.text, { fontSize: 20 }]}>4</Text>
             <Text style={[styles.text, styles.subText]}>Followers</Text>
           </View>
-          <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>3</Text>
+          <View style={[
+              styles.statsBox,
+              {
+                borderRightWidth: 1,
+              },
+            ]}>
+            <Text style={[styles.text, { fontSize: 20,}]}>3</Text>
             <Text style={[styles.text, styles.subText]}>Following</Text>
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          marginTop: -300,
-          marginBottom: 20,
-          flex: 1,
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
-        <View style={{ width: "50%" }}>
-          <Button title="Logout" onPress={onLogout} color={Colors.danger} />
+        <View
+          style={{
+            marginTop: 0,
+            marginBottom: 15,
+            flex: 0,
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ width: "50%",
+          }}>
+            <Button title="Logout" onPress={onLogout} color={Colors.danger}/>
+          </View>
         </View>
-      </View>
 
-      <View style={{ flex: 1, marginTop: -300 }}>
-        <FlatList
-          numColumns={3}
-          data={posts}
-          keyExtractor={(item) => item.downloadURL}
-          renderItem={({ item }) => (
-            // <TouchableOpacity onPress={() => this.goToPost(item)}>
-            <Image
-              source={{ uri: item.downloadURL }}
-              style={{ width: 130, height: 100 }}
-            />
-            // </TouchableOpacity>
-          )}
-        />
-      </View>
+        <View style={{ flexBasis: 390, }}>
+          <FlatList
+            numColumns={3}
+            data={posts}
+            keyExtractor={(item) => item.downloadURL}
+            renderItem={({ item }) => (
+              <Image
+                source={{ uri: item.downloadURL }}
+                style={{ width: 120, height: 120 }}
+              />
+            )}
+          />
+        </View>
     </SafeAreaView>
   );
 }
@@ -154,6 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
     marginTop: 30,
+
   },
   text: {
     color: "#52575D",
@@ -162,6 +170,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 150,
     width: 200,
+    resizeMode:'cover',
   },
   subText: {
     fontSize: 12,
@@ -170,46 +179,49 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   profileImage: {
-    width: 150,
-    height: 150,
+    marginRight:10,
+    width: 120,
+    height: 120,
     borderRadius: 75,
     overflow: "hidden",
-    backgroundColor: Colors.warning,
+    backgroundColor: "orange",
   },
   active: {
     backgroundColor: Colors.success,
     position: "absolute",
-    bottom: 20,
-    left: 4,
-    padding: 4,
+    top: 30,
+    left: 35,
     height: 20,
     width: 20,
     borderRadius: 10,
+    marginLeft:-30,
+    marginTop:-20,
   },
   add: {
-    backgroundColor: Colors.primary,
     position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 40,
-    height: 40,
+    bottom: -7,
+    right: -7,
+    width: 50,
+    height: 50,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    opacity: 0.6,
+    opacity: 0.9,
   },
   infoContainer: {
     alignSelf: "center",
     alignItems: "center",
-    marginTop: 16,
   },
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 32,
   },
   statsBox: {
     alignItems: "center",
     flex: 1,
+    borderColor: "grey",
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderRadius: 6,
   },
 });
